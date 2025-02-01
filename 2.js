@@ -1,22 +1,26 @@
 document.addEventListener("DOMContentLoaded", loadMessages);
 
 function addMessage() {
-    const text = getMessageInput();
-    if (!text) return;
-    const div = createMessageDiv(text);
-    const editBtn = createButton("Редагувати", "editBtn", () => editMessage(div));
-    const deleteBtn = createButton("Видалити", "deleteBtn", () => deleteMessage(div));
-    div.appendChild(editBtn);
-    div.appendChild(deleteBtn);
-    document.getElementById("messages").appendChild(div);
-    resetMessageInput();
-    updateMessageCount();
-    saveMessages();
+    try {
+        const text = getMessageInput();
+        if (!text) return;
+        const div = createMessageDiv(text);
+        const editBtn = createButton("Редагувати", "editBtn", () => editMessage(div));
+        const deleteBtn = createButton("Видалити", "deleteBtn", () => deleteMessage(div));
+        div.appendChild(editBtn);
+        div.appendChild(deleteBtn);
+        document.getElementById("messages").appendChild(div);
+        resetMessageInput();
+        updateMessageCount();
+        saveMessages();
+    } catch (error) {
+        console.error("Error adding message:", error);
+    }
 }
 
 function getMessageInput() {
     const input = document.getElementById("messageInput");
-    return input.value.trim();
+    return input ? input.value.trim() : "";
 }
 
 function createMessageDiv(text) {
@@ -35,13 +39,18 @@ function createButton(text, className, onClick) {
 }
 
 function deleteMessage(div) {
-    div.remove();
-    updateMessageCount();
-    saveMessages();
+    try {
+        div.remove();
+        updateMessageCount();
+        saveMessages();
+    } catch (error) {
+        console.error("Error deleting message:", error);
+    }
 }
 
 function resetMessageInput() {
-    document.getElementById("messageInput").value = "";
+    const input = document.getElementById("messageInput");
+    if (input) input.value = "";
 }
 
 function editMessage(div) {
@@ -62,24 +71,37 @@ function editMessage(div) {
 }
 
 function updateMessageCount() {
-    document.getElementById("messageCount").textContent = document.querySelectorAll(".message").length;
+    const count = document.querySelectorAll(".message").length;
+    document.getElementById("messageCount").textContent = count;
 }
 
 function saveMessages() {
-    const messages = Array.from(document.querySelectorAll(".message p")).map(p => p.textContent);
-    localStorage.setItem("forumMessages", JSON.stringify(messages));
+    try {
+        const messages = Array.from(document.querySelectorAll(".message p")).map(p => p.textContent);
+        localStorage.setItem("forumMessages", JSON.stringify(messages));
+    } catch (error) {
+        console.error("Error saving messages to localStorage:", error);
+    }
 }
 
 function loadMessages() {
-    const messages = JSON.parse(localStorage.getItem("forumMessages")) || [];
-    messages.forEach(text => {
-        document.getElementById("messageInput").value = text;
-        addMessage();
-    });
+    try {
+        const messages = JSON.parse(localStorage.getItem("forumMessages")) || [];
+        messages.forEach(text => {
+            document.getElementById("messageInput").value = text;
+            addMessage();
+        });
+    } catch (error) {
+        console.error("Error loading messages from localStorage:", error);
+    }
 }
 
 function clearMessages() {
-    document.getElementById("messages").innerHTML = "";
-    updateMessageCount();
-    localStorage.removeItem("forumMessages");
+    try {
+        document.getElementById("messages").innerHTML = "";
+        updateMessageCount();
+        localStorage.removeItem("forumMessages");
+    } catch (error) {
+        console.error("Error clearing messages:", error);
+    }
 }
