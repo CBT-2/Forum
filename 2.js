@@ -1,30 +1,47 @@
 document.addEventListener("DOMContentLoaded", loadMessages);
 
 function addMessage() {
-    const input = document.getElementById("messageInput");
-    const text = input.value.trim();
+    const text = getMessageInput();
     if (!text) return;
+    const div = createMessageDiv(text);
+    const editBtn = createButton("Редагувати", "editBtn", () => editMessage(div));
+    const deleteBtn = createButton("Видалити", "deleteBtn", () => deleteMessage(div));
+    div.appendChild(editBtn);
+    div.appendChild(deleteBtn);
+    document.getElementById("messages").appendChild(div);
+    resetMessageInput();
+    updateMessageCount();
+    saveMessages();
+}
+
+function getMessageInput() {
+    const input = document.getElementById("messageInput");
+    return input.value.trim();
+}
+
+function createMessageDiv(text) {
     const div = document.createElement("div");
     div.className = "message";
     div.innerHTML = `<p>${text}</p>`;
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Редагувати";
-    editBtn.className = "editBtn";
-    editBtn.onclick = () => editMessage(div);
-    div.appendChild(editBtn);
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Видалити";
-    deleteBtn.className = "deleteBtn";
-    deleteBtn.onclick = () => {
-        div.remove();
-        updateMessageCount();
-        saveMessages();
-    };
-    div.appendChild(deleteBtn);
-    document.getElementById("messages").appendChild(div);
-    input.value = "";
+    return div;
+}
+
+function createButton(text, className, onClick) {
+    const button = document.createElement("button");
+    button.textContent = text;
+    button.className = className;
+    button.onclick = onClick;
+    return button;
+}
+
+function deleteMessage(div) {
+    div.remove();
     updateMessageCount();
     saveMessages();
+}
+
+function resetMessageInput() {
+    document.getElementById("messageInput").value = "";
 }
 
 function editMessage(div) {
