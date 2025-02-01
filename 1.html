@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src = "2.js"></script>
+    <title>Форум</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            resize: none;
+            background: #f9f9f9;
+        }
+        textarea:focus {
+            transform: scale(1.02);
+            outline: none;
+            border: 2px solid #764ba2;
+            background: white;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff7eb3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        button:hover {
+            background: #ff4f85;
+            transform: scale(1.05);
+        }
+        .messages {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .message {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s ease-in-out;
+            position: relative;
+        }
+        .message p {
+            margin: 0;
+        }
+        .reply {
+            margin-left: 20px;
+            background: #f1f1ff;
+        }
+        .reply textarea {
+            margin-top: 10px;
+        }
+        .deleteBtn, .editBtn, .saveBtn {
+            background: #ff4f4f;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .deleteBtn:hover, .editBtn:hover, .saveBtn:hover {
+            background: #d43f3f;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Форум (<span id="messageCount">0</span>)</h2>
+    <textarea id="messageInput" placeholder="Напишіть повідомлення..." rows="3"></textarea>
+    <button onclick="addMessage()">Додати</button>
+    <button onclick="clearMessages()" style="background: #d43f3f; margin-top: 10px;">Очистити форум</button>
+    <div class="messages" id="messages"></div>
+</div>
+</body>
+</html>
